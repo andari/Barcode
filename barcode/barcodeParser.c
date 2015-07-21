@@ -43,6 +43,8 @@ const barcodeMapping CharacterMap[] = {
 	{ '9', 1, {0} }
 };
 
+//testcomment
+
 barcodeContext initializeBarcodeContext(){
 	barcodeContext context;
 	bzero(&context, sizeof(context));
