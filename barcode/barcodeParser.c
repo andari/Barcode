@@ -217,6 +217,7 @@ const barcodeMapping CharacterMap[] = {
 	            0x04,0x00,0x5a,0x00,0x00,0x00,0x00,0x00} },
 
 };
+//comment just for git push the correct time
 
 barcodeContext initializeBarcodeContext(){
 	barcodeContext context;
