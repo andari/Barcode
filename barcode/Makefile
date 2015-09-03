@@ -1,5 +1,5 @@
 CC := gcc
-CFLAGS := -Wall -ggdb -g3 
+CFLAGS := -Wall -ggdb -g3 -lcurl 
 LDFLAGS := 
 SOURCES := ${wildcard *.c}
 OBJECTS := ${SOURCES:.c=.o}
