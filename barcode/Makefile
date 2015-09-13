@@ -1,6 +1,6 @@
 CC := gcc
-CFLAGS := -Wall -ggdb -g3 -lcurl 
-LDFLAGS := 
+CFLAGS := -Wall -ggdb -g3 
+LDFLAGS := -lcurl
 SOURCES := ${wildcard *.c}
 OBJECTS := ${SOURCES:.c=.o}
 EXECUTABLE := barcode
