@@ -104,7 +104,7 @@ int main(int argc, char** argv){
 				curl_easy_setopt(curl, CURLOPT_COPYPOSTFIELDS, datasent);
 					
 				//printf("BARCODE SCAN SUCCESS \n");
-				//printf("BARCODE RESULT : %s\n", output.line);
+				printf("BARCODE RESULT : %s\n", output.line);
 				//curl_easy_setopt(curl, CURLOPT_POSTFIELDS, datasent);
 				//context = initializeBarcodeContext();
 				//bzero(&output,sizeof(output)) ;
