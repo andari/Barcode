@@ -11,7 +11,7 @@
 // custom libraries
 #include "barcodeParser.h"
 
-#define POLL_TIME_MS    500
+#define POLL_TIME_MS 500  
 #define MAX_BUFFER_SIZE 1024
 
 int continuePolling = 1;
