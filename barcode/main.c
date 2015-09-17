@@ -11,7 +11,7 @@
 // custom libraries
 #include "barcodeParser.h"
 
-#define POLL_TIME_MS 500  
+#define POLL_TIME_MS 1000  
 #define MAX_BUFFER_SIZE 1024
 
 int continuePolling = 1;
@@ -31,11 +31,11 @@ void catchSignal(int signal){
 
 int main(int argc, char** argv){
 	CURL *curl;
-	CURLcode res;
+	//CURLcode res;
 	
-	curl_global_init(CURL_GLOBAL_ALL);
+	//curl_global_init(CURL_GLOBAL_ALL);
 
-	curl = curl_easy_init();
+	//curl = curl_easy_init();
 
 	// check if enough arguments are passed
 	if (argc < 2){
@@ -68,14 +68,13 @@ int main(int argc, char** argv){
 	fds[0].fd = fd;
 	fds[0].events = POLLIN;
 	fds[0].revents = 0;
-		
 	barcodeContext context = initializeBarcodeContext();
 	barcodeOutput output = {0};
 	
 	while (continuePolling){
 		// Poll
 		int ret = poll(fds, 1, POLL_TIME_MS);
-
+		//printf("ret:%d  \n", ret );	
 		if (ret > 0 && (fds[0].revents & POLLIN)){
 			// If we detect the event, 
 			// zero it out so we can reuse the structure
@@ -90,23 +89,24 @@ int main(int argc, char** argv){
 					bzero(buffer, sizeof(buffer));
 				}
 			}
-							
+			//printf("numner of readbytes:%d  \n", readBytes );
+			//printf("inputline: %s \n", context);				
 			if (parseBarcodeContext(context, &output) == SUCCESS){
-				if(curl){
+				
 				char *datasent = output.line;
-				//const char *datasent = "Hello World!!!!!!!!!!!!!!!!!!!1!";
-				//printf("the code lies here and datasent is %s\n", datasent);
-				//curl_easy_setopt(curl, CURLOPT_POSTFIELDS, datasent);	
-				//printf("the code lies here after curl to outputline\n");
+				if (curl){
+				
+				CURLcode res;
+	
+				curl_global_init(CURL_GLOBAL_ALL);
+
+				curl = curl_easy_init();
+					
 				curl_easy_setopt(curl, CURLOPT_URL, "http://169.254.164.6:8000/licence/");  //169.254.164.6
 				curl_easy_setopt(curl, CURLOPT_POSTFIELDSIZE, 20L);
-				//curl_easy_setopt(curl, CURLOPT_POSTFIELDS, datasent);
 				curl_easy_setopt(curl, CURLOPT_COPYPOSTFIELDS, datasent);
-					
 				//printf("BARCODE SCAN SUCCESS \n");
 				printf("BARCODE RESULT : %s\n", output.line);
-				//curl_easy_setopt(curl, CURLOPT_POSTFIELDS, datasent);
-				//context = initializeBarcodeContext();
 				//bzero(&output,sizeof(output)) ;
 				res = curl_easy_perform(curl);
 				if(res != CURLE_OK){
@@ -119,14 +119,13 @@ int main(int argc, char** argv){
 				context = initializeBarcodeContext();
 				bzero(&output,sizeof(output)) ;
 				curl_easy_cleanup(curl);
- 
-			}
+				}
 		}
-		
+		}
 		// zero it out so we can reuse the structure
 		fds[0].revents = 0;
-		}
+		
 	}	
-	//curl_global_cleanup();
+	curl_global_cleanup();
 	exit(EXIT_SUCCESS);
 }

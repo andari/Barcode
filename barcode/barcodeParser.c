@@ -281,15 +281,20 @@ int parseBarcodeContext(barcodeContext context, barcodeOutput* output){
 
 		if (isNewBlockSeparator(context.inputLines[iter]) == SUCCESS){
 			newLine = 1;
+			//printf("BLOCK \n");
 		}
 		else if (isBufferStartEndTag(context.inputLines[iter]) == SUCCESS){
 			startStop++;
 			//printf("START STOP TAG\n");
+			//printf("startstop: %d \n", startStop);
 		}
 		else if (isCharacterTag(context.inputLines[iter]) == SUCCESS){
+			//printf("CHARACTER \n");
 			if (isSkipTag(context.inputLines[iter]) == FAILURE){
 				memcpy(buffer + bufferSize, context.inputLines[iter].line, INPUT_LINE_LENGTH);
 				bufferSize += INPUT_LINE_LENGTH;
+				//printf("SKIP TAG\n");
+				//printf("buffersize: %d\n", bufferSize);
 			}
 		}
 		/*
